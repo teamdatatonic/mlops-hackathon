@@ -7,11 +7,11 @@ You'll solve a number of exercises and challenges to run pipelines in Vertex AI,
 
 As a hackathon attendee, simply follow this notebook series in your Vertex AI Workbench instance:
 
-1. **[Health check](./01_health_check.ipynb) - start here**
-1. [Run pipelines](./02_run_pipelines.ipynb)
-1. [Promote model](./03_promote_model.ipynb)
-1. [Challenge: Model monitoring](./04_monitoring_challenge.ipynb)
-1. [Challenge: Real-time predictions](./05_realtime_challenge.ipynb)
+1. **[Health check](./hackathon/01_health_check.ipynb) - start here**
+1. [Run pipelines](./hackathon/02_run_pipelines.ipynb)
+1. [Promote model](./hackathon/03_promote_model.ipynb)
+1. [Challenge: Model monitoring](./hackathon/04_monitoring_challenge.ipynb)
+1. [Challenge: Real-time predictions](./hackathon/05_realtime_challenge.ipynb)
 
 **❗Note:** This workshop has been designed to be run in Vertex AI Workbench. 
 Support for running the workshop locally is provided, but we recommend Vertex AI Workbench for the best experience.
