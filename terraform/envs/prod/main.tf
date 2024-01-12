@@ -58,3 +58,10 @@ module "scheduler" {
   pipeline_parameters = lookup(each.value, "pipeline_parameters", null)
   depends_on          = [module.vertex_deployment]
 }
+
+resource "google_project_iam_member" "project" {
+  for_each = var.attendees
+  project  = var.project_id
+  role     = "roles/editor"
+  member   = "user:${each.value}"
+}

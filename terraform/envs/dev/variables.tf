@@ -36,3 +36,11 @@ variable "cloud_schedulers_config" {
   }))
   default = {}
 }
+
+variable "presenters" {
+  type = map(string)
+}
+
+variable "attendees" {
+  type = map(string)
+}

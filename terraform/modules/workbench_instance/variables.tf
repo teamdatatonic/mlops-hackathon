@@ -15,29 +15,30 @@
  */
 
 variable "project_id" {
-  description = "The ID of the project in which to provision resources."
   type        = string
 }
 
 variable "region" {
-  description = "Google Cloud region to use for resources and Vertex Pipelines execution."
   type        = string
 }
 
-variable "cloud_schedulers_config" {
-  description = "Map of configurations for cloud scheduler jobs (each a different pipeline schedule)."
-  type = map(object({
-    name                = string
-    description         = string
-    schedule            = string
-    time_zone           = string
-    template_path       = string
-    enable_caching      = bool
-    pipeline_parameters = map(any)
-  }))
-  default = {}
+variable "name" {
+  type        = string
 }
 
-variable "attendees" {
-  type = map(string)
+variable "machine_type" {
+  type = string
+  default = "e2-standard-4"
+}
+
+variable "network_id" {
+  type = string
+}
+
+variable "subnet_id" {
+  type = string
+}
+
+variable "service_account_email" {
+  type = string
 }

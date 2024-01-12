@@ -30,7 +30,7 @@ deploy: ## Deploy infrastructure to your project. Optionally set env=<dev|test|p
 	fi; \
 	cd terraform/envs/$(env) && \
 	terraform init -backend-config='bucket=${VERTEX_PROJECT_ID}-tfstate' && \
-	terraform apply -var 'project_id=${VERTEX_PROJECT_ID}' -var 'region=${VERTEX_LOCATION}' $$AUTO_APPROVE_FLAG
+	terraform apply -var-file "../../users.tfvars" $$AUTO_APPROVE_FLAG
 
 undeploy: ## Destroy the infrastructure in your project. Optionally set env=<dev|test|prod> (default=dev).
 	@echo "################################################################################" && \
@@ -41,7 +41,7 @@ undeploy: ## Destroy the infrastructure in your project. Optionally set env=<dev
 	fi; \
 	cd terraform/envs/$(env) && \
 	terraform init -backend-config='bucket=${VERTEX_PROJECT_ID}-tfstate' && \
-	terraform destroy -var 'project_id=${VERTEX_PROJECT_ID}' -var 'region=${VERTEX_LOCATION}' $$AUTO_APPROVE_FLAG
+	terraform destroy -var-file "../../users.tfvars" $$AUTO_APPROVE_FLAG
 
 install: ## Set up local Python environment for development.
 	@echo "################################################################################" && \

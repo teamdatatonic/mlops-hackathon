@@ -21,7 +21,7 @@ terraform {
 
     google = {
       source  = "hashicorp/google"
-      version = "~> 4.56.0"
+      version = "~> 5.11.0"
     }
 
     google-beta = {
@@ -57,4 +57,38 @@ module "scheduler" {
   enable_caching      = lookup(each.value, "enable_caching", null)
   pipeline_parameters = lookup(each.value, "pipeline_parameters", null)
   depends_on          = [module.vertex_deployment]
+}
+
+resource "google_compute_network" "network" {
+  name = "default-vpc"
+  auto_create_subnetworks = true
+}
+
+resource "google_compute_subnetwork" "subnetwork" {
+  name = "default-vpc"
+  network = google_compute_network.network.id
+  region = var.region
+  ip_cidr_range = "10.154.0.0/20"
+}
+
+data "google_compute_default_service_account" "default" {
+  project = var.project_id
+}
+
+module "instances" {
+  for_each   = merge(var.presenters, var.attendees)
+  source     = "../../modules/workbench_instance"
+  project_id = var.project_id
+  region     = "${var.region}-a"
+  name       = each.key
+  network_id = google_compute_network.network.id
+  subnet_id  = google_compute_subnetwork.subnetwork.id
+  service_account_email = data.google_compute_default_service_account.default.email
+}
+
+resource "google_project_iam_member" "project" {
+  for_each = var.attendees
+  project  = var.project_id
+  role     = "roles/editor"
+  member   = "user:${each.value}"
 }
