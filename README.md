@@ -28,6 +28,6 @@ The notebooks are self-contained but instructors of this hackathon are asked to 
     - `Vertex AI User` (roles/aiplatform.user)
     - `Storage Object Viewer` (roles/storage.objectViewer)
     - `Service Usage Consumer` (roles/serviceusage.serviceUsageConsumer)
-1. Create one workbench instance (Google Colab Enterprise is recommended) per user.
+1. Create one Vertex Workbench instance per user.
 1. Confirm that users can access the GCP resources.
 1. ❗Post workshop remember to delete all the users from the project and to clean up branches and releases in this repository
