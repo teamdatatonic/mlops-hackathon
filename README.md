@@ -18,6 +18,10 @@ Support for running the workshop locally is provided, but we recommend Vertex AI
 
 ## For instructors
 
+![Shell](https://github.com/teamdatatonic/vertex-pipelines-end-to-end-samples/wiki/images/shell.gif)
+
+## Introduction
+
 The notebooks are self-contained but instructors of this hackathon are asked to prepare the following for hackathon attendees.
 
 1. Create 3x Google Cloud projects (dev, test, prod)
