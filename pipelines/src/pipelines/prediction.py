@@ -23,7 +23,7 @@ from components import lookup_model, model_batch_predict
 
 RESOURCE_SUFFIX = env.get("RESOURCE_SUFFIX", "default")
 # set training-serving skew thresholds and emails to receive alerts:
-ALERT_EMAILS = []
+ALERT_EMAILS = ['elliottmurray@gmail.com']
 NOTIFICATION_CHANNELS = []
 SKEW_THRESHOLDS = {"defaultSkewThreshold": {"value": 0.001}}
 # or set different thresholds per feature:
