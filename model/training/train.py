@@ -67,6 +67,8 @@ def train(
     for x in [output_metrics, output_train_path, output_test_path, output_test_path]:
         Path(x).parent.mkdir(parents=True, exist_ok=True)
     Path(output_model).mkdir(parents=True, exist_ok=True)
+    
+    logging.info("Example change to training pipeline")
 
     df_train.to_csv(output_train_path, index=False)
     df_valid.to_csv(output_valid_path, index=False)
