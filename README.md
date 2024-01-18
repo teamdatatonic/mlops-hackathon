@@ -37,8 +37,8 @@ The notebooks are self-contained but instructors of this hackathon are asked to 
    
 ### Configure dev project
 
-1. Add each user with their Google account with the following `Editor` role
-1. Create one Vertex Workbench instance per user.
+1. Update `terraform/users.tfvars`
+2. Ensure `env.sh` references the dev project and run `make deploy env=dev`
 
 ### Configure test project
 

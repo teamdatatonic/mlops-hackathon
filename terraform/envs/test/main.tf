@@ -62,6 +62,6 @@ module "scheduler" {
 resource "google_project_iam_member" "project" {
   for_each = var.attendees
   project  = var.project_id
-  role     = "roles/editor"
+  role     = "roles/viewer"
   member   = "user:${each.value}"
 }
