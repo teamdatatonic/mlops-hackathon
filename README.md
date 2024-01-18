@@ -20,18 +20,80 @@ Support for running the workshop locally is provided, but we recommend Vertex AI
 
 ![Shell](https://github.com/teamdatatonic/vertex-pipelines-end-to-end-samples/wiki/images/shell.gif)
 
-## Introduction
-
 The notebooks are self-contained but instructors of this hackathon are asked to prepare the following for hackathon attendees.
 
+### Deploy projects
+
 1. Create 3x Google Cloud projects (dev, test, prod)
-1. Use `make deploy` to deploy resources in each of them. It's advised to follow the [infrastructure setup notebook](./docs/notebooks/01_infrastructure_setup.ipynb) for each environment
-1. Create an E2E test trigger in the test project
-1. Create a release trigger in the prod project
-1. Add each user with their own Google account with the following IAM roles:
-    - `Vertex AI User` (roles/aiplatform.user)
-    - `Storage Object Viewer` (roles/storage.objectViewer)
-    - `Service Usage Consumer` (roles/serviceusage.serviceUsageConsumer)
+1. Use `make deploy` to deploy resources in each of them. Checkout for the workflow [infrastructure setup notebook](./docs/notebooks/01_infrastructure_setup.ipynb).
+   ```bash
+   # ensure env.sh references dev project
+   make deploy env=dev
+   # ensure env.sh references test project
+   make deploy env=test
+   # ensure env.sh references prod project
+   make deploy env=prod
+   ```
+   
+### Configure dev project
+
+1. Add each user with their Google account with the following `Editor` role
 1. Create one Vertex Workbench instance per user.
-1. Confirm that users can access the GCP resources.
-1. ❗Post workshop remember to delete all the users from the project and to clean up branches and releases in this repository
+
+### Configure test project
+
+1. Add each user with their Google account with the following `Viewer` role
+1. Create Cloud Build repo:
+   ![Test repo](hackathon/images/cloud_build_repo.png)
+   **Note:** You might need to enable the Secret Manager API.
+1. Create Cloud Build Service Account with IAM roles:
+    - Artifact Registry Writer
+    - Logs Writer
+    - Storage Admin
+    - Vertex AI User
+    - Grant role "Service Account User" for this SA on `vertex-pipelines@mz-project.iam.gserviceaccount.com`
+1. Create 3x Cloud Build triggers. For each use the settings below and reference the corresponding `cloudbuild/<trigger>.yaml` file:
+   ![Test triggers](hackathon/images/cloud_build_triggers_test.png)
+    - Event: Pull Request
+    - Source: 
+      - Repository: 2nd gen
+      - Base branch: `^develop$`
+    - Comment control: Required
+    - Configuration:
+      - Type: Cloud Build configuration file
+      - Location: Repository
+      - Cloud Build configuration file: `/cloudbuild/<trigger-name>.yaml` 
+    - Advanced:
+      - Service account: `cloud-build@my-project-staging.iam.gserviceaccount.com`
+
+   **Note:** Trigger `e2e-tests` requires the following substitution variables:
+   ![Test repo](hackathon/images/cloud_build_vars_test.png)
+
+### Configure prod project
+
+1. Add each user with their Google account with the following `Viewer` role
+1. Create Cloud Build repo:
+   ![Test repo](hackathon/images/cloud_build_repo.png)
+1. Create 1x Cloud Build trigger:
+    - Event: Push new tag
+    - Source: 
+      - Repository: 2nd gen
+      - Base branch: `.*`
+    - Configuration:
+      - Type: Cloud Build configuration file
+      - Location: Repository
+      - Cloud Build configuration file: `/cloudbuild/release.yaml` 
+    - Advanced:
+      - Service account: `cloud-build@my-project-staging.iam.gserviceaccount.com`
+1. Create Cloud Build Service Account with IAM roles:
+    - Artifact Registry Writer
+    - Logs Writer
+    - Storage Admin
+    - Vertex AI User
+
+### Clean up
+
+1. Shutdown Workbench instances at the end of the day
+1. Delete user branches in this repo
+1. Delete user tags in this repo
+1. Delete 3x projects
