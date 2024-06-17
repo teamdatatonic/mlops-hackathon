@@ -45,7 +45,7 @@ def train(
     output_metrics: str,
     hparams: dict,
 ):
-
+    logging.info("This a new code change in the model code")
     logging.info("Added a new code change in the model code")
     logging.info("Read csv files into dataframes")
     df = pd.read_csv(input_path)
